@@ -4,6 +4,7 @@ using ProiectRestanta.Data;
 using ProiectRestanta.Models.Constants;
 using ProiectRestanta.Repositories;
 using ProiectRestanta.Repositories.ShopRepository;
+using ProiectRestanta.Services.UserServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,8 +31,9 @@ builder.Services.AddAuthentication(auth =>
 .AddJwtBearer();
 
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
-
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
