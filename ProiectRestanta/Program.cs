@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProiectRestanta.Data;
+using ProiectRestanta.Entities;
 using ProiectRestanta.Models.Constants;
 using ProiectRestanta.Repositories;
 using ProiectRestanta.Repositories.ShopRepository;
@@ -31,9 +33,13 @@ builder.Services.AddAuthentication(auth =>
 .AddJwtBearer();
 
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
-builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddIdentity<User, Role>()
+    .AddEntityFrameworkStores<ProiectContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
