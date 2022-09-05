@@ -29,6 +29,7 @@ namespace ProiectRestanta.Services.UserServices
             registerUser.Email = dto.Email;
             registerUser.FirstName = dto.FirstName;
             registerUser.LastName = dto.LastName;
+            registerUser.UserName = dto.Email;
 
             var result = await _userManager.CreateAsync(registerUser, dto.Password);
 
@@ -46,7 +47,7 @@ namespace ProiectRestanta.Services.UserServices
         {
             User user = await _userManager.FindByEmailAsync(dto.Email);
 
-            if (user != null)
+            if (user != null && await _userManager.CheckPasswordAsync(user, dto.Password))
             {
                 user = await _repository.User.GetByIdWithRoles(user.Id);
 

@@ -44,7 +44,10 @@ builder.Services.AddAuthentication(auth =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Custom Key For Auth")),
         ValidateIssuerSigningKey = true
     };
-    
+    options.Events = new JwtBearerEvents()
+    {
+        OnTokenValidated = SessionTokenValidator.ValidateSessionToken
+    };
 });
 
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
@@ -71,9 +74,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

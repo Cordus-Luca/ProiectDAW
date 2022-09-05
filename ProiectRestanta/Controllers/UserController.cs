@@ -17,7 +17,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _repository.User.GetAllUsers();
