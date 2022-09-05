@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProiectRestanta.Data;
 
@@ -11,9 +12,10 @@ using ProiectRestanta.Data;
 namespace ProiectRestanta.Migrations
 {
     [DbContext(typeof(ProiectContext))]
-    partial class ProiectContextModelSnapshot : ModelSnapshot
+    [Migration("20220904232526_AddedSessionToken")]
+    partial class AddedSessionToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +133,7 @@ namespace ProiectRestanta.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bosses", (string)null);
+                    b.ToTable("Bosses");
                 });
 
             modelBuilder.Entity("ProiectRestanta.Entities.Design", b =>
@@ -155,7 +157,7 @@ namespace ProiectRestanta.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Designs", (string)null);
+                    b.ToTable("Designs");
                 });
 
             modelBuilder.Entity("ProiectRestanta.Entities.Role", b =>
@@ -207,7 +209,7 @@ namespace ProiectRestanta.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("Shirts", (string)null);
+                    b.ToTable("Shirts");
                 });
 
             modelBuilder.Entity("ProiectRestanta.Entities.ShirtDesign", b =>
@@ -222,7 +224,7 @@ namespace ProiectRestanta.Migrations
 
                     b.HasIndex("DesignId");
 
-                    b.ToTable("ShirtDesigns", (string)null);
+                    b.ToTable("ShirtDesigns");
                 });
 
             modelBuilder.Entity("ProiectRestanta.Entities.Shop", b =>
@@ -248,7 +250,7 @@ namespace ProiectRestanta.Migrations
                     b.HasIndex("BossId")
                         .IsUnique();
 
-                    b.ToTable("Shops", (string)null);
+                    b.ToTable("Shops");
                 });
 
             modelBuilder.Entity("ProiectRestanta.Entities.User", b =>
@@ -357,7 +359,7 @@ namespace ProiectRestanta.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SessionTokens", (string)null);
+                    b.ToTable("SessionTokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

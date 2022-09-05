@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProiectRestanta.Entities;
+using ProiectRestanta.Models.Entities;
 
 namespace ProiectRestanta.Data
 {
@@ -11,6 +12,7 @@ namespace ProiectRestanta.Data
     {
         public ProiectContext(DbContextOptions<ProiectContext> options) : base(options) { }
 
+        public DbSet<SessionToken> SessionTokens { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Shirt> Shirts { get; set; }
         public DbSet<Boss> Bosses { get; set; }

@@ -7,6 +7,7 @@ namespace ProiectRestanta.Repositories
     {
         private readonly ProiectContext _context;
         private IUserRepository _user;
+        private ISessionTokenRepository _sessionToken;
         public RepositoryWrapper(ProiectContext context)
         {
             _context = context;
@@ -21,6 +22,14 @@ namespace ProiectRestanta.Repositories
             }
         }
 
+        public ISessionTokenRepository SessionToken
+        {
+            get
+            {
+                if (_sessionToken == null) _sessionToken = new SessionTokenRepository(_context);
+                return _sessionToken;
+            }
+        }
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

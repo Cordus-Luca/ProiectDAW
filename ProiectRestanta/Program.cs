@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using ProiectRestanta.Helpers;
 using ProiectRestanta.Data;
 using ProiectRestanta.Entities;
 using ProiectRestanta.Models.Constants;
 using ProiectRestanta.Repositories;
 using ProiectRestanta.Repositories.ShopRepository;
 using ProiectRestanta.Services.UserServices;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +33,19 @@ builder.Services.AddAuthentication(auth =>
     auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer();
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Custom Key For Auth")),
+        ValidateIssuerSigningKey = true
+    };
+    
+});
 
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
 
@@ -57,6 +72,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
