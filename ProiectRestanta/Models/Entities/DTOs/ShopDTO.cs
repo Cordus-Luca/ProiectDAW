@@ -14,9 +14,9 @@
             this.Id = shop.Id;
             this.Nume = shop.Nume;
             this.Stoc = shop.Stoc;
-            //this.BossId = 0;
-            //this.Boss = new Boss();
-            //this.Shirts = new List<Shirt>();
+            this.BossId = shop.BossId;
+            this.Boss = new Boss();
+            this.Shirts = new List<Shirt>();
 
         }
     }

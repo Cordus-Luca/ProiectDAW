@@ -4,5 +4,6 @@
     {
         public string Nume { get; set; }
         public int Stoc { get; set; }
+        public int BossId { get; set; }
     }
 }

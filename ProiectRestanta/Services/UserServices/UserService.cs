@@ -22,7 +22,7 @@ namespace ProiectRestanta.Services.UserServices
             _repository = repository;
         }
 
-        public async Task<bool> RegisterUserAsync(RegisterUserDTO dto)
+        public async Task<bool> RegisterAdminAsync(RegisterUserDTO dto)
         {
             var registerUser = new User();
 
@@ -36,6 +36,26 @@ namespace ProiectRestanta.Services.UserServices
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(registerUser, UserRoleType.Admin);
+
+                return true;
+            }
+
+            return false;
+        }
+        public async Task<bool> RegisterUserAsync(RegisterUserDTO dto)
+        {
+            var registerUser = new User();
+
+            registerUser.Email = dto.Email;
+            registerUser.FirstName = dto.FirstName;
+            registerUser.LastName = dto.LastName;
+            registerUser.UserName = dto.Email;
+
+            var result = await _userManager.CreateAsync(registerUser, dto.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(registerUser, UserRoleType.User);
 
                 return true;
             }

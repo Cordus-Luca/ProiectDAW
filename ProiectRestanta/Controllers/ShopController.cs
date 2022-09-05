@@ -19,7 +19,6 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAllShops()
         {
             var shops = await _repository.GetAllShopsWithStock();
@@ -41,6 +40,8 @@ namespace ProiectRestanta.Controllers
 
             return (IShopRepository)Ok(new ShopDTO(shop));
         }
+
+        
 
         [HttpDelete]
         public async Task<IShopRepository> DeleteShop(int id)
@@ -72,6 +73,25 @@ namespace ProiectRestanta.Controllers
             await _repository.SaveAsync();
 
             return (IShopRepository)Ok(new ShopDTO(newShop));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IShopRepository> UpdateShop(int id, CreateShopDTO dto)
+        {
+            var shop = await _repository.GetByIdAsync(id);
+
+            if(shop == null)
+            {
+                return (IShopRepository)BadRequest("Shop does not exist");
+            }
+
+            shop.Nume = dto.Nume;
+            shop.Stoc = dto.Stoc;
+            shop.BossId = dto.BossId;
+            shop.Boss = new Boss();
+            shop.Shirts = new List<Shirt>();
+
+            return (IShopRepository)Ok(new ShopDTO(shop));
         }
     }
 }

@@ -26,7 +26,28 @@ namespace ProiectRestanta.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDTO dto)
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterUserDTO dto)
+        {
+            var exists = await _userManager.FindByEmailAsync(dto.Email);
+
+            if (exists != null)
+            {
+                return BadRequest("User Already registered!");
+            }
+
+            var result = await _userService.RegisterAdminAsync(dto);
+            
+            if (result)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO dto)
         {
             var exists = await _userManager.FindByEmailAsync(dto.Email);
 
@@ -36,7 +57,7 @@ namespace ProiectRestanta.Controllers
             }
 
             var result = await _userService.RegisterUserAsync(dto);
-            
+
             if (result)
             {
                 return Ok(result);
