@@ -6,6 +6,7 @@ using ProiectRestanta.Entities;
 using ProiectRestanta.Repositories.BossRepository;
 using ProiectRestanta.Models.Entities.DTOs;
 
+
 namespace ProiectRestanta.Controllers
 {
     [Route("api/[controller]")]
@@ -18,8 +19,8 @@ namespace ProiectRestanta.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [HttpGet("get-all-bosses")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetAllBosses()
         {
             var bosses = await _repository.GetAllWithShop();
@@ -57,9 +58,12 @@ namespace ProiectRestanta.Controllers
             boss.Salariu = dto.Salariu;
             boss.Shop = new Shop();
 
+            _repository.Update(boss);
+            await _repository.SaveAsync();
+
             return Ok(new BossDTO(boss));
         }
-        [HttpDelete]
+        [HttpDelete("delete-bosses")]
         public async Task<IActionResult> DeleteBoss(int id)
         {
             var boss = await _repository.GetByIdAsync(id);
@@ -76,7 +80,7 @@ namespace ProiectRestanta.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpPost("create-boss")]
         public async Task<IActionResult> CreateBoss(CreateBossDTO dto)
         {
             Boss newBoss = new Boss();

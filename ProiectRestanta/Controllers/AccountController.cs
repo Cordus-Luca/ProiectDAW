@@ -24,7 +24,7 @@ namespace ProiectRestanta.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("register-admin")]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterUserDTO dto)
         {
@@ -45,7 +45,7 @@ namespace ProiectRestanta.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPost("register-user")]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO dto)
         {

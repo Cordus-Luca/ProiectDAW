@@ -18,7 +18,7 @@ namespace ProiectRestanta.Controllers
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("get-all-shops")]
         public async Task<IActionResult> GetAllShops()
         {
             var shops = await _repository.GetAllShopsWithStock();
@@ -34,55 +34,56 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IShopRepository> GetShopById( int id)
+        public async Task<IActionResult> GetShopById( int id)
         {
             var shop = await _repository.GetByIdAsync(id);
 
-            return (IShopRepository)Ok(new ShopDTO(shop));
+            return Ok(new ShopDTO(shop));
         }
 
         
 
-        [HttpDelete]
-        public async Task<IShopRepository> DeleteShop(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteShop(int id)
         {
             var shop = await _repository.GetByIdAsync(id);
 
             if(shop == null)
             {
-                return (IShopRepository)NotFound("Shop does not exist");
+                return NotFound("Shop does not exist");
             }
 
             _repository.Delete(shop);
 
             await _repository.SaveAsync();
 
-            return (IShopRepository)NoContent();
+            return NoContent();
         }
 
-        [HttpPost]
-        public async Task<IShopRepository> CreateShop(CreateShopDTO dto)
+        [HttpPost("create-shop")]
+        public async Task<IActionResult> CreateShop(CreateShopDTO dto)
         {
             Shop newShop = new Shop();
             
             newShop.Nume = dto.Nume;
             newShop.Stoc = dto.Stoc;
+            newShop.BossId = dto.BossId;
 
             _repository.Create(newShop);
 
             await _repository.SaveAsync();
 
-            return (IShopRepository)Ok(new ShopDTO(newShop));
+            return Ok(new ShopDTO(newShop));
         }
 
         [HttpPut("{id}")]
-        public async Task<IShopRepository> UpdateShop(int id, CreateShopDTO dto)
+        public async Task<IActionResult> UpdateShop(int id, CreateShopDTO dto)
         {
             var shop = await _repository.GetByIdAsync(id);
 
             if(shop == null)
             {
-                return (IShopRepository)BadRequest("Shop does not exist");
+                return BadRequest("Shop does not exist");
             }
 
             shop.Nume = dto.Nume;
@@ -91,7 +92,10 @@ namespace ProiectRestanta.Controllers
             shop.Boss = new Boss();
             shop.Shirts = new List<Shirt>();
 
-            return (IShopRepository)Ok(new ShopDTO(shop));
+            _repository.Update(shop);
+            await _repository.SaveAsync();
+
+            return Ok(new ShopDTO(shop));
         }
     }
 }

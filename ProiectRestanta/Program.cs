@@ -11,6 +11,7 @@ using ProiectRestanta.Repositories.ShopRepository;
 using ProiectRestanta.Services.UserServices;
 using System.Text;
 using ProiectRestanta.Repositories.BossRepository;
+using ProiectRestanta.Repositories.ShirtRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,7 @@ builder.Services.AddAuthentication(auth =>
 
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
 builder.Services.AddTransient<IBossRepository, BossRepository>();
+builder.Services.AddTransient<IShirtRepository, ShirtRepository>();
 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddScoped<IUserService, UserService>();
