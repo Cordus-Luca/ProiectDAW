@@ -19,6 +19,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("get-all-shops")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> GetAllShops()
         {
             var shops = await _repository.GetAllShopsWithStock();
@@ -34,6 +35,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> GetShopById( int id)
         {
             var shop = await _repository.GetByIdAsync(id);
@@ -41,9 +43,8 @@ namespace ProiectRestanta.Controllers
             return Ok(new ShopDTO(shop));
         }
 
-        
-
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> DeleteShop(int id)
         {
             var shop = await _repository.GetByIdAsync(id);
@@ -61,6 +62,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpPost("create-shop")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> CreateShop(CreateShopDTO dto)
         {
             Shop newShop = new Shop();
@@ -77,6 +79,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> UpdateShop(int id, CreateShopDTO dto)
         {
             var shop = await _repository.GetByIdAsync(id);

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProiectRestanta.Entities;
 using ProiectRestanta.Models.Entities.DTOs;
 using ProiectRestanta.Repositories.ShirtRepository;
+using System.Data;
 
 namespace ProiectRestanta.Controllers
 {
@@ -17,7 +19,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("get-all-shirts")]
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> GetAllShirts()
         {
             var shirts = await _repository.GetAllShirtsWithShop();
@@ -33,6 +35,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> GetShirtById(int id)
         {
             var shirt = await _repository.GetByIdAsync(id);
@@ -41,6 +44,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> UpdateShirt(int id, CreateShirtDTO dto)
         {
             var shirt = await _repository.GetByIdAsync(id);
@@ -58,7 +62,9 @@ namespace ProiectRestanta.Controllers
 
             return Ok("Shirt was updated");
         }
+
         [HttpDelete("delete-shirts")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> DeleteShirt(int id)
         {
             var shirt = await _repository.GetByIdAsync(id);
@@ -76,6 +82,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpPost("create-shirt")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> CreateShirt(CreateShirtDTO dto)
         {
             Shirt newShirt = new Shirt();

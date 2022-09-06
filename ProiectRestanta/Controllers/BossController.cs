@@ -20,7 +20,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("get-all-bosses")]
-        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetAllBosses()
         {
             var bosses = await _repository.GetAllWithShop();
@@ -36,6 +36,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetBossById(int id)
         {
             var boss = await _repository.GetByIdAsync(id);
@@ -44,6 +45,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> UpdateBoss(int id, CreateBossDTO dto)
         {
             var boss = await _repository.GetByIdAsync(id);
@@ -63,7 +65,9 @@ namespace ProiectRestanta.Controllers
 
             return Ok(new BossDTO(boss));
         }
+
         [HttpDelete("delete-bosses")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> DeleteBoss(int id)
         {
             var boss = await _repository.GetByIdAsync(id);
@@ -81,6 +85,7 @@ namespace ProiectRestanta.Controllers
         }
 
         [HttpPost("create-boss")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> CreateBoss(CreateBossDTO dto)
         {
             Boss newBoss = new Boss();
@@ -95,8 +100,6 @@ namespace ProiectRestanta.Controllers
 
             return Ok("Boss was created!");
         }
-
-
 
     }
 }

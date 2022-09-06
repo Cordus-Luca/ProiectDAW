@@ -15,7 +15,7 @@ namespace ProiectRestanta.Repositories.ShirtRepository
 
         public async Task<Shirt> GetByColor(string color)
         {
-            return await _context.Shirts.Where(s => s.Culoare.Equals(color, StringComparison.Ordinal)).FirstOrDefaultAsync();
+            return await _context.Shirts.Where(sh => sh.Culoare.Equals(color, StringComparison.Ordinal)).FirstOrDefaultAsync();
         }
     }
 }
